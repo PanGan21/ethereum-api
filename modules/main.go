@@ -7,6 +7,7 @@ import (
 	"math/big"
 
 	Models "github.com/PanGan21/ethereum-api/models"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
@@ -50,4 +51,29 @@ func GetLatestBlock(client ethclient.Client) *Models.Block {
 		})
 	}
 	return _block
+}
+
+// GetTxByHash by a given hash
+func GetTxByHash(client ethclient.Client, hash common.Hash) *Models.Transaction {
+	// Recover from panics
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+
+	tx, pending, err := client.TransactionByHash(context.Background(), hash)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return &Models.Transaction{
+		Hash:     tx.Hash().String(),
+		Value:    tx.Value().String(),
+		Gas:      tx.Gas(),
+		GasPrice: tx.GasPrice().Uint64(),
+		Nonce:    tx.Nonce(),
+		To:       tx.To().String(),
+		Pending:  pending,
+	}
 }
