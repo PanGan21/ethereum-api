@@ -20,3 +20,29 @@ type Transaction struct {
 	To       string `json:"to"`
 	Pending  bool   `json:"pending"`
 }
+
+// TransferEthRequest data structure
+type TransferEthRequest struct {
+	PrivKey string `json:"privKey"`
+	To      string `json:"to"`
+	Amount  int64  `json:"amount"`
+}
+
+// HashResponse data structure
+type HashResponse struct {
+	Hash string `json:"hash"`
+}
+
+// BalanceResponse data structure
+type BalanceResponse struct {
+	Address string `json:"address"`
+	Balance string `json:"balance"`
+	Symbol  string `json:"symbol"`
+	Units   string `json:"units"`
+}
+
+// Error data structure
+type Error struct {
+	Code    uint64 `json:"code"`
+	Message string `json:"message"`
+}
